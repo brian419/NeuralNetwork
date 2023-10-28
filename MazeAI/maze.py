@@ -2,7 +2,7 @@ import numpy as np
 import random
 import pygame
 
-#Define the maze we'll be using.
+#Define the maze we'll be using. Maze layouts 1 and 2
 maze = np.array([
     [0, 0, 0, 1, 0],
     [0, 1, 0, 1, 0],
@@ -25,7 +25,8 @@ num_states = maze.size
 num_actions = 4
 learning_rate = 0.1
 discount_factor = 0.95
-exploration_prob = 0.5
+exploration_prob = 0.2
+#exmploration prob 0.5 for maze layout 1, 0.2 for maze layout 2
 
 #initialize the q_table
 q_table = np.zeros((num_states, num_actions))
@@ -44,6 +45,7 @@ rewards = {
 #goal_state = np.argwhere(maze == 2)[0][0]
 
 goal_state = 24
+#goal_state = 4
 
 #defines the valid actions for each state
 def get_valid_actions(state):
@@ -113,9 +115,9 @@ best_path = []
 #best_cumulative_reward = float('-inf') 
 best_cumulative_reward = -np.inf
 
-#stop threshold
-#stop_threshold = (0.01 * 8) + 10.0
-#stop_threshold = 6
+#stop threshold is 6 for maze 1 and 8 for maze 2
+stop_threshold = 6  
+#stop_threshold = 8
 
 # Training loop
 for episode in range(num_episodes):
@@ -195,8 +197,10 @@ for episode in range(num_episodes):
 
 
     # Check if you want to exit the loop when a better path is found
-    # if best_cumulative_reward >= stop_threshold:
-    #     break
+    if best_cumulative_reward >= stop_threshold:
+        break
+
+    
 
 
 #save the best path that it took 
